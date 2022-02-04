@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const Expedientes = new require('../../../../dao/expedientes/expedientes.model');
+const Expedientes = require('../../../../dao/expedientes/expedientes.model');
 const expedienteModel = new Expedientes();
 
 router.get('/', (req, res) =>{
     res.status(200).json(
         {
             endpoint:'Expedientes',
-            updates:new Date(2022,0,19,18,41,00),
+            updates:new Date(2022,0,19,18,41,0),
             author:'Edison Ordoñez'
         }
     );
