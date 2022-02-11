@@ -1,19 +1,18 @@
-const getDB = require('../db');
+const getDB = require('../mongodb');
 
 let db = null;
 
 class Pacientes{
+    collection = null;
     constructor()
     {
         getDB()
         .then((database) =>{
             db = database;
+            this.collection = db.collection('Pacientes');
 
             if(process.env.MIGRATE === 'true')
-            {
-                const createStatement = 'CREATE TABLE IF NOT EXISTS pacientes (id INTEGER PRIMARY KEY AUTOINCREMENT, identidad TEXT, nombre TEXT, apellido TEXT, email TEXT, telefono TEXT);';
-                db.run(createStatement);
-            }
+            {}
         })
 
         .catch((err) =>{
@@ -21,102 +20,31 @@ class Pacientes{
         });
     }
 
-    new(nombre, apellido, identidad, telefono, email)
+    async new(nombre, apellido, identidad, telefono, email)
     {
-        return new Promise((accept, reject)=> {
-            db.run(
-                'INSERT INTO pacientes (identidad, nombre, apellido, email, telefono) VALUES (?, ?, ?, ?, ?);',
-                [identidad, nombre, apellido, email, telefono],
-                function(err)
-                {
-                    if(err)
-                    {
-                        console.error(err);
-                        reject(err);
-                    }
+        const newPaciente = {
+            nombre, 
+            apellido, 
+            identidad, 
+            telefono, 
+            email
+        };
 
-                    accept(this.lastID);
-                }
-            );
-        });
+        const rslt = await this.collection.insertOne(newPaciente);
+        return rslt;
     }
 
-    getAll()
-    {
-        return new Promise((accept, reject) =>{
-            db.all('SELECT * from pacientes;', (err, rows) =>{
-                if(err)
-                {
-                    console.error(err);
-                    reject(err);
-                }
-                else
-                {
-                    accept(rows);
-                }
-            });
-        });
-    }
+    async getAll()
+    {}
 
-    getById(id)
-    {
-        return new Promise((accept, reject) =>{
-            db.get('SELECT * from pacientes where id=?;', [id],
-            (err, row) =>{
-                if(err)
-                {
-                    console.error(err);
-                    reject(err);
-                }
-                else
-                {
-                    accept(row);
-                }
-            });
-        });
-    }
+    async getById(id)
+    {}
 
-    updateOne(id, nombre, apellido, identidad, telefono, email)
-    {
-        return new Promise((accept, reject) =>{
-            const sqlUpdate = 'UPDATE pacientes set nombre = ?, apellido = ?, identidad = ?, email = ?, telefono = ? where id = ?;';
-            db.run(
-                sqlUpdate,[nombre, apellido, identidad,telefono, email, id],
-                function (err)
-                {
-                    if(err)
-                    {
-                        reject(err);
-                    }
-                    else
-                    {
-                        accept(this);
-                    }
-                }
-            );
-        });
-    }
+    async updateOne(id, nombre, apellido, identidad, telefono, email)
+    {}
 
-    deleteOne(id)
-    {
-        return new Promise((accept, reject) =>{
-            const sqlDelete = 'DELETE from pacientes where id = ?;';
-            db.run(
-                sqlDelete,[id],
-                function (err)
-                {
-                    if(err)
-                    {
-                        reject(err);
-                    }
-                    else
-                    {
-                        accept(this);
-                    }
-                }
-            );
-        });
-    }
+    async deleteOne(id)
+    {}
 }
 
 module.exports = Pacientes;
