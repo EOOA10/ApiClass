@@ -31,7 +31,7 @@ router.get('/byid/:id', async(req, res) =>{
     try
     {
         const {id} = req.params;
-        const row = await pacienteModel.getById(parseInt(id));
+        const row = await pacienteModel.getById((id));
         res.status(200).json({status:'OK', paciente: row});
     }
     catch(ex)
