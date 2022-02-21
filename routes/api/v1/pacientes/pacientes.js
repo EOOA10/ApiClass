@@ -123,6 +123,60 @@ router.put('/update/:id', async(req, res) =>{
     }
 });// PUT /update/:id
 
+router.put('/addtag/:id', async(req, res) =>{
+    try
+    {
+        const { tag } = req.body;
+        const { id } = req.params;
+        const result = await pacienteModel.updateAddTag(id, tag);
+        res.status(200).json({
+            status:'OK',
+            result
+        });
+    }
+    catch(ex)
+    {
+        console.log(ex);
+        res.status(500).json({status:'FAILED'});
+    }
+});// PUT /addtag/:id
+
+router.put('/addtagset/:id', async(req, res) =>{
+    try
+    {
+        const { tag } = req.body;
+        const { id } = req.params;
+        const result = await pacienteModel.updateAddTagSet(id, tag);
+        res.status(200).json({
+            status:'OK',
+            result
+        });
+    }
+    catch(ex)
+    {
+        console.log(ex);
+        res.status(500).json({status:'FAILED'});
+    }
+});// PUT /addtagset/:id
+
+router.put('/removetag/:id', async(req, res) =>{
+    try
+    {
+        const { tag } = req.body;
+        const { id } = req.params;
+        const result = await pacienteModel.updatePopTag(id, tag);
+        res.status(200).json({
+            status:'OK',
+            result
+        });
+    }
+    catch(ex)
+    {
+        console.log(ex);
+        res.status(500).json({status:'FAILED'});
+    }
+});// PUT /removetag/:id
+
 router.delete('/delete/:id', async(req, res) =>{
     try
     {
