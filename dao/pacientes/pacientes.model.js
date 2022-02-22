@@ -109,33 +109,29 @@ class Pacientes{
         return await this.collection.updateOne(filter, updateCmd);
     }
 
-/*
-    async updatePopTag(id, tagEntry)
-    {
-        const updateCmd = 
-        {
-            $set:{
-                tags:{
-                    $let:{
-                        vars:{ ix:{ $indexOfArray:[ "$tags", tagEntry]} },
-                        in:{
-                            $concatArrays:[
-                                { $slice: [ "$tags", 0, "$$ix"]},
-                                [],
-                                {$slice: [ "$tags", { $add: [1, "$$ix"]}, 
-                                {$size: "$tags"}
-                                ]}
-                            ]
-                        }
-                    }
+    async updatePopTag(id, tagEntry) {
+        //console.log(tagEntry);
+        const updateCmd = [{
+          '$set': {
+            'tags': {
+              '$let': {
+                'vars': { 'ix': { '$indexOfArray': ['$tags', tagEntry] } },
+                'in': {
+                  '$concatArrays': [
+                    { '$slice': ['$tags', 0, {'$add':[1,'$$ix']}]},
+                    [],
+                    { '$slice': ['$tags', { '$add': [2, '$$ix'] }, { '$size': '$tags' }] }
+                  ]
                 }
+              }
             }
-        };
+          }
+        }];
 
-        const filter = {_id: new ObjectId(id)};
+        const filter = { _id: new ObjectId(id) };
         return await this.collection.updateOne(filter, updateCmd);
-    }
-*/
+      }
+
     async deleteOne(id)
     {
         const filter = {_id: new ObjectId(id)};
