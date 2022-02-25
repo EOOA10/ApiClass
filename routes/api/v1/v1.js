@@ -10,7 +10,8 @@ const SeguridadRoutes = require('./seguridad/seguridad');
 
 router.use(passport.initialize());
 //PUBLIC
-router.use('/seguridad', SeguridadRoutes);
+router.use('/seguridad', VerifyApiHeaderToken,
+                         SeguridadRoutes);
 
 //MIDDLEWARE
 router.use('/pacientes',
