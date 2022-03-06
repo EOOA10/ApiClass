@@ -20,8 +20,8 @@ router.use('/pacientes',
             PacientesRoutes);
 
 router.use('/expedientes',
-            //VerifyApiHeaderToken, 
-            //jwtMiddleware,
+            VerifyApiHeaderToken, 
+            jwtMiddleware,
             ExpendientesRoutes);
 
 module.exports = router;
