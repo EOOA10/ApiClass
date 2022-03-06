@@ -17,7 +17,7 @@ router.post('/signin', async (req, res) => {
         console.log(ex);
         res.status(500).json({status: 'Failed'});
     }
-});
+});//Crear Usuarios
 
 router.post('/login', async (req, res) => {
     try
@@ -53,6 +53,6 @@ router.post('/login', async (req, res) => {
         console.log(ex);
         res.status(500).json({status: 'Failed'});
     }
-})
+});//Logear Usuarios
 
 module.exports = router;
