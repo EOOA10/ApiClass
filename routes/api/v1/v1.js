@@ -18,6 +18,10 @@ router.use('/pacientes',
             VerifyApiHeaderToken,
             jwtMiddleware,
             PacientesRoutes);
-router.use('/expedientes', ExpendientesRoutes);
+
+router.use('/expedientes',
+            //VerifyApiHeaderToken, 
+            //jwtMiddleware,
+            ExpendientesRoutes);
 
 module.exports = router;
